@@ -1,0 +1,34 @@
+[package]
+name = "pomofomo"
+version = "0.1.0"
+description = "A calm Pomodoro timer for Windows"
+authors = ["david"]
+edition = "2021"
+
+[lib]
+name = "pomofomo_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-notification = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-autostart = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+tokio = { version = "1", features = ["time"] }
+dirs = "6"
+
+[target.'cfg(windows)'.dependencies]
+getfileicon = "0.3"
+windows = { version = "0.58", features = [
+  "Win32_Foundation",
+  "Win32_System_Threading",
+  "Win32_System_ProcessStatus",
+  "Win32_UI_WindowsAndMessaging",
+] }
