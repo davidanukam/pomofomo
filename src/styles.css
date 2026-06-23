@@ -1056,6 +1056,12 @@ body.tray-mode #app {
   transform: translate(-50%, -50%);
   pointer-events: auto;
   cursor: default;
+  z-index: 1;
+}
+
+.line-chart-dots .line-dot:hover,
+.line-chart-dots .line-dot:focus-visible {
+  z-index: 100;
 }
 
 .line-chart-dots .line-dot::after {
@@ -1086,7 +1092,7 @@ body.tray-mode #app {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.12s, visibility 0.12s;
-  z-index: 10;
+  z-index: 1;
   pointer-events: none;
   text-align: center;
   line-height: 1.35;

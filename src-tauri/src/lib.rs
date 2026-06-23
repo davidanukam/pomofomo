@@ -1,4 +1,5 @@
 mod app_icons;
+mod brand_icon;
 mod app_tracking;
 mod commands;
 mod engine;
@@ -141,6 +142,14 @@ fn warn_about_other_instances() {
 }
 
 fn setup_tray(app: &AppHandle) -> tauri::Result<()> {
+    let dark_mode = app
+        .state::<AppState>()
+        .engine
+        .lock()
+        .map(|e| e.settings().settings.dark_mode)
+        .unwrap_or(false);
+    let tray_icon = brand_icon::icon_for_theme(dark_mode);
+
     let open_i = MenuItem::with_id(app, "open", "Open Pomo Fomo", true, None::<&str>)?;
     let start_i = MenuItem::with_id(app, "start_pause", "Start / Pause", true, None::<&str>)?;
     let skip_i = MenuItem::with_id(app, "skip", "Skip", true, None::<&str>)?;
@@ -164,7 +173,7 @@ fn setup_tray(app: &AppHandle) -> tauri::Result<()> {
     )?;
 
     let _tray = TrayIconBuilder::with_id("main")
-        .icon(app.default_window_icon().unwrap().clone())
+        .icon(tray_icon)
         .menu(&menu)
         .show_menu_on_left_click(false)
         .tooltip("Pomo Fomo")
@@ -400,6 +409,7 @@ fn apply_runtime_settings(app: &AppHandle, settings: &crate::models::AppSettings
     if let Some(main) = app.get_webview_window("main") {
         let _ = main.set_always_on_top(settings.always_on_top);
     }
+    brand_icon::apply_brand_icon(app, settings.dark_mode);
 }
 
 fn apply_startup_settings(app: &AppHandle) -> tauri::Result<()> {

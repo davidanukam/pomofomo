@@ -233,10 +233,12 @@ function topAppEntry(): AppSplitEntry | null {
 
 function niceChartMax(value: number): number {
     const max = Math.max(1, value);
-    if (max <= 60) return Math.ceil(max / 20) * 20 || 20;
-    if (max <= 120) return 60;
-    if (max <= 240) return 120;
-    return Math.ceil(max / 60) * 60;
+    const padded = max * 1.08;
+    if (padded <= 60) return Math.ceil(padded / 20) * 20 || 20;
+    if (padded <= 180) return Math.ceil(padded / 60) * 60;
+    if (padded <= 360) return Math.ceil(padded / 60) * 60;
+    if (padded <= 720) return Math.ceil(padded / 120) * 120;
+    return Math.ceil(padded / 180) * 180;
 }
 
 function yAxisTicks(maxValue: number): number[] {
