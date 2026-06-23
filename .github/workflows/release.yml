@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  workflow_dispatch: # manual "Run workflow" button
+  push:
+    tags:
+      - 'v*'           # e.g. push tag v0.1.0
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build and publish release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: Pomo Fomo v__VERSION__
+          releaseBody: |
+            Download the installer below for Windows x64.
+
+            **NSIS installer** (`-setup.exe`) — recommended for most users.
+          releaseDraft: true
+          prerelease: false
