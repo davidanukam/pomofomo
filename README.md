@@ -1,4 +1,4 @@
-# Pomo Fomo 🍅☕
+# Pomo Fomo
 
 A calm, intentional **Pomodoro timer for Windows** that is built with **Tauri (Rust)** for a lightweight native shell and a clean, minimal interface.
 
