@@ -56,9 +56,12 @@ src-tauri/src/
 ├─ history.rs         history.json + insights
 ├─ commands.rs        Tauri IPC commands
 └─ lib.rs             Tray, shortcuts, tick loop
+website/              Marketing site (Next.js) for Vercel
 ```
 
 User data: `%LOCALAPPDATA%\PomoFomo\` (`settings.json`, `history.json`).
+
+Marketing site: see [`website/README.md`](website/README.md).
 
 ---
 
